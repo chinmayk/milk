@@ -1,9 +1,15 @@
 ==============================
 MILK: MACHINE LEARNING TOOLKIT
 ==============================
-Machine Learning in Python
+Fork of Milk
 --------------------------
 
+This is a fork of the Milk framework for Python. It will eventually support random forest 
+that allows user weights for specific attributes. These attributes bias the forest into creating 
+classifiers with the specified behaviors if possible. As such, these are "soft" abstract rules.
+
+What is Milk?
+--------------
 Milk is a machine learning toolkit in Python.
 
 Its focus is on supervised classification with several classifiers available:
