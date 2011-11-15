@@ -49,7 +49,7 @@ def _sample(features, labels, n, R):
     sfeatures = []
     slabels = []
     for i in xrange(n):
-        idx = R.randint(N)
+        idx = R.randint(N) #Sample with replacement
         sfeatures.append(features[idx])
         slabels.append(labels[idx])
     return np.array(sfeatures), np.array(slabels)
@@ -84,25 +84,26 @@ class rf_learner(object):
         Source of randomness
     '''
     def __init__(self, rf=101, frac=.7, R=None):
-        self.rf = rf
+        self.rf = rf 
         self.frac = frac
         self.R = get_nprandom(R)
 
     def train(self, features, labels, normalisedlabels=False, names=None, return_label=True, **kwargs):
-        N,M = features.shape
-        m = int(self.frac*M)
-        n = int(self.frac*N)
+        N,M = features.shape #N is number of training samples, M is the number of features.
+        m = int(self.frac*M) #Building a tree with a fraction of the features
+        n = int(self.frac*N) #Building a tree on a fraction of the training set
         R = get_nprandom(kwargs.get('R', self.R))
         tree = milk.supervised.tree.tree_learner(return_label=return_label)
         forest = []
         if not normalisedlabels:
             labels,names = normaliselabels(labels)
         elif names is None:
-            names = (0,1)
+            names = (0,1) #Ok. Not quite sure when we'll reach here.
         for i in xrange(self.rf):
             forest.append(
-                    tree.train(*_sample(features, labels, n, R),
+                    tree.train(*_sample(features, labels, n, R), 
                                **{'normalisedlabels' : True})) # This syntax is necessary for Python 2.5
+					#This is btw, just a complicated way of passing (feature, label, normalizedLabel=True)
         return rf_model(forest, names, return_label)
 
 
